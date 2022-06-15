@@ -1,11 +1,11 @@
-#ifndef MONTY_HD
-#define MONTY_HD
-#define  _GNU_SOURCE
+#ifndef MONTYH
+#define MONTYH
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <ctype.h>
+
+#define STACKMODE 0
+#define QUEUEMODE 1
 
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
@@ -14,7 +14,7 @@
  * @next: points to the next element of the stack (or queue)
  *
  * Description: doubly linked list node structure
- * for stack, queues, LIFO, FIFO
+ * for stack, queues, LIFO, FIFO Holberton project
  */
 typedef struct stack_s
 {
@@ -24,12 +24,12 @@ typedef struct stack_s
 } stack_t;
 
 /**
- * struct instruction_s - opcode and its function
+ * struct instruction_s - opcoode and its function
  * @opcode: the opcode
  * @f: function to handle the opcode
  *
  * Description: opcode and its function
- * for stack, queues, LIFO, FIFO
+ * for stack, queues, LIFO, FIFO Holberton project
  */
 typedef struct instruction_s
 {
@@ -37,28 +37,47 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
+union montyfunctype
+{
+	void (*toponly)(stack_t **top);
+	void (*pushmode)(stack_t **top, stack_t **bot, int val, int mode);
+	void (*topbot)(stack_t **top, stack_t **bot);
+};
 
-extern int value;
-int value;
+typedef struct optype
+{
+	char *opcode;
+	union montyfunctype func;
+} optype;
 
-void process_string(stack_t **stack, char *string, unsigned int line_no);
-void push(stack_t **stack, unsigned int line_number);
-void perform_operation(stack_t **stack, char *tokens, unsigned int line_no);
-int check_digit(char *token);
-void pall(stack_t **stack, unsigned int line_no);
-void pint(stack_t **stack, unsigned int line_no);
-void pop(stack_t **stack, unsigned int line_no);
-void swap(stack_t **stack, unsigned int line_no);
-void add(stack_t **stack, unsigned int line_no);
-void free_stack(stack_t **stack, unsigned int line_no);
-void nop(stack_t **stack, unsigned int line_no);
-void sub(stack_t **stack, unsigned int line_no);
-void op_div(stack_t **stack, unsigned int line_no);
-void mul(stack_t **stack, unsigned int line_no);
-void mod(stack_t **stack, unsigned int line_no);
-void pchar(stack_t **stack, unsigned int line_no);
-void pstr(stack_t **stack, unsigned int line_no);
-void rotl(stack_t **stack, unsigned int line_no);
-void rotr(stack_t **stack, unsigned int line_no);
+typedef struct montyglob
+{
+	char *buffer;
+	unsigned long linenum;
+	FILE* script;
+} montyglob;
+
+/* from montyparse.c */
+void exitwrap(int exitcode, char *existring, stack_t *top);
+
+/* opstack.c */
+void push(stack_t **top, stack_t **bot, int val, int mode);
+void pop(stack_t **top);
+void swap(stack_t **top, stack_t **bot);
+void rotl(stack_t **top, stack_t **bot);
+void rotr(stack_t **top, stack_t **bot);
+
+/* opprint.c */
+void pall(stack_t **top);
+void pint(stack_t **top);
+void pchar(stack_t **top);
+void pstr(stack_t **top);
+
+/* opmath.c */
+void add(stack_t **top);
+void sub(stack_t **top);
+void mul(stack_t **top);
+void _div(stack_t **top);
+void mod(stack_t **top);
 
 #endif

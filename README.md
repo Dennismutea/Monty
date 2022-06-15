@@ -1,56 +1,86 @@
-# Monty Language Interpreter
+# Monty
 
-Monty is a scripting language that is first compiled into Monty byte codes. It relies on a unique stack, with specific instructions to manipulate it. The goal of this project is to create an interpreter for Monty ByteCodes files.
+A simple integer stack command line interface. Defaults to last in first out, with the queue command switching it to first in first out.
 
-## Directory and File Descriptions
+(Also some brainfuck scripts that were part of this project set in the brainfuck folder)
 
-- `/bf` - Contains BrainFuck Scripts
-- `/bytecodes` - Contains sample monty `.m`  files for testing
-- `add.c` - Adds the top two elements of the stack
-- `div.c` - Divides the top two elements of the stack
-- `free_stack.c` - Removes all elements from the stack
-- `main.c` - Program entry point
-- `mod.c` - Computes the rest of the division of the second
-- `monty.h` - Contains all function prototypes
-- `mul.c` - Multiplies the top two elements of the stack
-- `nop.c` - Doesn't do anything
-- `pall.c` - Prints all the values on the stack
-- `pchar.c` - Prints the ascii value of int at the top of the stack
-- `perform_operations.c` - Finds a particular function
-- `pint.c` - Prints the value at the top of the stack
-- `pop.c` - Removes the top element of the stack
-- `process_string.c` - Splits string into tokens
-- `pstr.c` - Prints the string starting at the top of the stack
-- `push.c` - Adds a node to the beginning of the stack
-- `rotl.c` - Rotates the stack to the top
-- `rotr.c` - Rotates the stack to the bottom
-- `sub.c` - Subtracts the top two elements of the stack
-- `swap.c` - Subtracts the top two elements of the stack
+## Commands
+1. ```push```
+Pushes an integer onto the stack.
+2. ```pall```
+Prints all integers on the stack, starting at the top..
+3. ```pint```
+Prints the integer at the top of the stack.
+4. ```pop```
+Removes top element of stack.
+5. ```swap```
+Swaps top two elements of the stack.
+6. ```add```
+Add top two elements of the stack, remove them, and push result onto stack.
+7. ```sub```
+Subtract top two elements of the stack, remove them, and push result onto stack.
+8. ```div```
+Integer divide top two elements of the stack, remove them, and push result onto stack.
+9. ```mul```
+Multiply top two elements of the stack, remove them, and push result onto stack.
+10. ```mod```
+Integer division remainder top two elements, remove them, push result onto stack.
+11. ```pchar```
+Print the ascii character based on top integer in stack.
+12. ```pstr```
+Print the ascii characters related to integers in stack until 0 or >255.
+13. ```rotl```
+Rotate stack. Top element becomes last. Second from top becomes top.
+14. ```rotr```
+Rotate stack. Last element becomes top, Top element becomes second from top.
+15. ```stack```
+Changes mode to first in first out (the default behavior). Front of queue becomes top of stack.
+16. ```queue```
+Changes mode to last in first out. Top of stack becomes front of queue.
 
-## Installing
-- Clone to repository
-- Compile using  - `gcc -Wall -Werror -Wextra -pedantic -std=c90 *.c -o monty`
+## Getting started
+Clone the repository and run "gcc -o monty *.c". Then run "./monty \<scriptname\>"
 
-## Example
-
+## Usage Examples
+The simplest usage is to push a few values onto the stack then print them all. Lets say we have a file like so:
 ```
-julien@ubuntu:~/monty$ cat bytecodes/07.m 
 push 1
 push 2
 push 3
 pall
-pop
-pall
-pop
-pall
-pop
-pall
-julien@ubuntu:~/monty$ ./monty bytecodes/07.m
+```
+When we run this with "./monty scriptfile" we get the output:
+```
 3
 2
 1
+```
+To use some of the math functions, we can write a script like so:
+```
+push 1
+push 2
+push 3
+pall
+add
+add
+pall
+```
+This nets us an output:
+```
+3
 2
 1
-1
+6
 ```
+If we want to print numbers as a string, we can have a script like:
+```
+push 49
+push 50
+push 51
+pstr
+```
+This gets the output "321"
 
+## Authors
+
+Sidney Burkett
