@@ -1,184 +1,86 @@
-# monty
- Stacks, Queues - LIFO, FIFO
+# Monty
 
-monty
+A simple integer stack command line interface. Defaults to last in first out, with the queue command switching it to first in first out.
 
-    This directory contains all the tasks of the project "C - Stacks, Queues - LIFO, FIFO" at ALX /Holberton School
+(Also some brainfuck scripts that were part of this project set in the brainfuck folder)
 
-Table of Contents
+## Commands
+1. ```push```
+Pushes an integer onto the stack.
+2. ```pall```
+Prints all integers on the stack, starting at the top..
+3. ```pint```
+Prints the integer at the top of the stack.
+4. ```pop```
+Removes top element of stack.
+5. ```swap```
+Swaps top two elements of the stack.
+6. ```add```
+Add top two elements of the stack, remove them, and push result onto stack.
+7. ```sub```
+Subtract top two elements of the stack, remove them, and push result onto stack.
+8. ```div```
+Integer divide top two elements of the stack, remove them, and push result onto stack.
+9. ```mul```
+Multiply top two elements of the stack, remove them, and push result onto stack.
+10. ```mod```
+Integer division remainder top two elements, remove them, push result onto stack.
+11. ```pchar```
+Print the ascii character based on top integer in stack.
+12. ```pstr```
+Print the ascii characters related to integers in stack until 0 or >255.
+13. ```rotl```
+Rotate stack. Top element becomes last. Second from top becomes top.
+14. ```rotr```
+Rotate stack. Last element becomes top, Top element becomes second from top.
+15. ```stack```
+Changes mode to first in first out (the default behavior). Front of queue becomes top of stack.
+16. ```queue```
+Changes mode to last in first out. Top of stack becomes front of queue.
 
-    Description
-    Opcodes
-    Respository Files Description
-    Usage Examples
-    Getting Started
-    Prerequisits
-    Built With - Compilation
-    Authors
-    License
-    Acknowledgments
+## Getting started
+Clone the repository and run "gcc -o monty *.c". Then run "./monty \<scriptname\>"
 
-Description
-
-Monty 0.98 is a scripting language that is first compiled into Monty byte codes (Just like Python). It relies on a unique stack, with specific instructions to manipulate it. The goal of this project is to create an interpreter for Monty ByteCodes files.
-
-Our monty works as a interpreter for Monty ByteCodes files. Files containing Monty byte codes usually have the .m extension. Most of the industry uses this standard but it is not required by the specification of the language. There is not more than one instruction per line. There can be any number of spaces before or after the opcode and its argument:
-
-user@ubuntu:~/monty$ cat -e bytecodes/000.m
-push 0$
-push 1$
-push 2$
-  push 3$
-                   pall    $
-push 4$
-    push 5    $
-      push    6        $
-pall$
-user@ubuntu:~/monty$
-
-Monty byte code files can contain blank lines (empty or made of spaces only, and any additional text after the opcode or its required argument is not taken into account:
-
-user@ubuntu:~/monty$ cat -e bytecodes/001.m
-push 0 Push 0 onto the stack$
-push 1 Push 1 onto the stack$
-$
-push 2$
-  push 3$
-                   pall    $
-$
-$
-                           $
-push 4$
-$
-    push 5    $
-      push    6        $
-$
-pall This is the end of our program. Monty is awesome!$
-user@ubuntu:~/monty$
-
-Opcodes
-opcode 	Description
-
-    push
-
-	Pushes an element to the stack.
-
-    pall
-
-	Prints all the values on the stack, starting from the top of the stack.
-
-    pint
-
-	Prints the value at the top of the stack, followed by a new line.
-
-    pop
-
-	Removes the top element of the stack.
-
-    swap
-
-	Swaps the top two elements of the stack.
-
-    add
-
-	Adds the top two elements of the stack.
-
-    nop
-
-	Doesn't do anything.
-
-    sub
-
-	Subtracts the top element of the stack from the second top element of the stack.
-
-    div
-
-	Divides the second top element of the stack by the top element of the stack.
-
-    mul
-
-	Multiplies the second top element of the stack with the top element of the stack.
-
-    mod
-
-	Computes the rest of the division of the second top element of the stack by the top element of the stack.
-
-    pchar
-
-	Prints the char at the top of the stack, followed by a new line.
-
-    pstr
-
-	Prints the string starting at the top of the stack, followed by a new line.
-
-    rotl
-
-	Rotates the stack to the top.
-
-    rotr
-
-	Rotates the stack to the bottom.
-
-    stack
-
-	Sets the format of the data to a stack (LIFO). This is the default behavior of the program.
-
-    queue
-
-	Sets the format of the data to a queue (FIFO).
-Respository Files Description
-File 	Description
-monty.h 	Header file containing all the functions prototypes, structs and standard C libraries included
-monty_main.c 	Core of the program - Handle all the conections.
-monty_run.c 	Function that reads the standard input and stores the info.
-errors.c 	Function that splits a string into tokens.
-README.md 	Readme file with all the information need to run monty interpreter
-Usage Examples
-push / pall:
-
-user@ubuntu:~/monty$ cat -e bytecodes/00.m
-push 1$
-push 2$
-push 3$
-pall$
-user@ubuntu:~/monty$ ./monty bytecodes/00.m
-3
-2
-1
-user@ubuntu:~/monty$
-
-pint:
-
-user@ubuntu:~/monty$ cat bytecodes/06.m
+## Usage Examples
+The simplest usage is to push a few values onto the stack then print them all. Lets say we have a file like so:
+```
 push 1
-pint
 push 2
-pint
 push 3
-pint
-user@ubuntu:~/monty$ ./monty bytecodes/06.m
-1
-2
+pall
+```
+When we run this with "./monty scriptfile" we get the output:
+```
 3
-user@ubuntu:~/monty$
+2
+1
+```
+To use some of the math functions, we can write a script like so:
+```
+push 1
+push 2
+push 3
+pall
+add
+add
+pall
+```
+This nets us an output:
+```
+3
+2
+1
+6
+```
+If we want to print numbers as a string, we can have a script like:
+```
+push 49
+push 50
+push 51
+pstr
+```
+This gets the output "321"
 
-Getting Started
+## Authors
 
-Clone this repository to get all the files you need to run this version of "monty" on your machine. Each part needed to make this interpreter works is in a single and a separete file, so you can connect and trace all the steps of the function and you can make your own changes and upgrades.
-Prerequisites
-
-This program was made and tested using Ubuntu 14.04.3 LTS and compiled with gcc 4.8.4. We recommend you to test this interpreter under this conditions.
-Built With - Compilation
-
-    Ubuntu 14.04.3 LTS Running on a Virtual Machine "Vagrant"
-    gcc 4.8.4 Compiled with the flags: -Wall -Werror -Wextra -pedantic *.c -o monty
-    GNU Emacs 24.3.1
-
-AUTHORS
-
-    Olanike Ogundiran - Github @NikkyXO
-    John Mzee - GitHub @Mzee1991
-
-License
-
-Opensource project.
+Sidney Burkett
