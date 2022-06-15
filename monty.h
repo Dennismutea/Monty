@@ -1,31 +1,11 @@
-#ifndef _MONTY_H_
-#define _MONTY_H_
+#ifndef MONTYH
+#define MONTYH
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
-#include <sys/types.h>
-#include <sys/stat.h>
-#include <fcntl.h>
-#include <unistd.h>
-#include <ctype.h>
 
-#define STACK 0
-#define QUEUE 1
-
-/**
- * struct var_s - struct contains main variables of the Monty interpreter
- * @len_queue: flag 0: stack, 1: queue
- * @len_stack: length of the stack
- */
-typedef struct var_s
-{
-int len_queue;
-size_t len_stack;
-} var_t;
-
-/* global flag contains queue and stack length */
-extern var_t var;
+#define STACKMODE 0
+#define QUEUEMODE 1
 
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
@@ -38,12 +18,13 @@ extern var_t var;
  */
 typedef struct stack_s
 {
-int n;
-struct stack_s *prev;
-struct stack_s *next;
+	int n;
+	struct stack_s *prev;
+	struct stack_s *next;
 } stack_t;
+
 /**
- * struct instruction_s - opcode and its function
+ * struct instruction_s - opcoode and its function
  * @opcode: the opcode
  * @f: function to handle the opcode
  *
@@ -52,34 +33,51 @@ struct stack_s *next;
  */
 typedef struct instruction_s
 {
-char *opcode;
-void (*f)(stack_t **stack, unsigned int line_number);
+	char *opcode;
+	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
-stack_t *add_node(stack_t **stack, const int n);
-void free_stack(int status, void *arg);
-void free_lineptr(int status, void *arg);
-void myfile_close(int status, void *arg);
-void call_oper(stack_t **stack, char *oper, unsigned int line);
+union montyfunctype
+{
+	void (*toponly)(stack_t **top);
+	void (*pushmode)(stack_t **top, stack_t **bot, int val, int mode);
+	void (*topbot)(stack_t **top, stack_t **bot);
+};
 
-void instruct_push(stack_t **stack, unsigned int line);
-void instruct_pall(stack_t **stack, unsigned int line);
-void instruct_pint(stack_t **stack, unsigned int line);
-void instruct_pop(stack_t **stack, unsigned int line);
-void instruct_swap(stack_t **stack, unsigned int line);
-void instruct_add(stack_t **stack, unsigned int line);
-void instruct_nop(stack_t **stack, unsigned int line);
-void instruct_sub(stack_t **stack, unsigned int line);
-void instruct_div(stack_t **stack, unsigned int line);
-void instruct_mul(stack_t **stack, unsigned int line);
-void instruct_mod(stack_t **stack, unsigned int line);
-void instruct_pchar(stack_t **stack, unsigned int line);
-void instruct_pstr(stack_t **stack, unsigned int line);
-void instruct_rotl(stack_t **stack, unsigned int line);
-void instruct_rotr(stack_t **stack, unsigned int line);
+typedef struct optype
+{
+	char *opcode;
+	union montyfunctype func;
+} optype;
 
-int check_isdigit(char *str);
-void set_queue(stack_t **stack, unsigned int line);
-void set_stack(stack_t **stack, unsigned int line);
+typedef struct montyglob
+{
+	char *buffer;
+	unsigned long linenum;
+	FILE* script;
+} montyglob;
+
+/* from montyparse.c */
+void exitwrap(int exitcode, char *existring, stack_t *top);
+
+/* opstack.c */
+void push(stack_t **top, stack_t **bot, int val, int mode);
+void pop(stack_t **top);
+void swap(stack_t **top, stack_t **bot);
+void rotl(stack_t **top, stack_t **bot);
+void rotr(stack_t **top, stack_t **bot);
+
+/* opprint.c */
+void pall(stack_t **top);
+void pint(stack_t **top);
+void pchar(stack_t **top);
+void pstr(stack_t **top);
+
+/* opmath.c */
+void add(stack_t **top);
+void sub(stack_t **top);
+void mul(stack_t **top);
+void _div(stack_t **top);
+void mod(stack_t **top);
 
 #endif
