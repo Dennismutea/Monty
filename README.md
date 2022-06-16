@@ -1,86 +1,97 @@
-# Monty
+# Monty Language Interpreter
+## About
+- This is an introductory project that explains:
+- What do LIFO and FIFO mean
+- What is a stack, and when to use it
+- What is a queue, and when to use it
+- What are the common implementations of stacks and queues
+- What are the most common use cases of stacks and queues
+- What is the proper way to use global variables
+- How to work with git submodules
+---
 
-A simple integer stack command line interface. Defaults to last in first out, with the queue command switching it to first in first out.
+## Requirements
+- Ubuntu 14.04 LTS
+- GCC version 4.8.4 with flags: -Wall -Werror -Wextra and -pedantic
+---
 
-(Also some brainfuck scripts that were part of this project set in the brainfuck folder)
+## Installation
+1. Clone the repository
+`https://github.com/mitalisengupta/monty.git`
 
-## Commands
-1. ```push```
-Pushes an integer onto the stack.
-2. ```pall```
-Prints all integers on the stack, starting at the top..
-3. ```pint```
-Prints the integer at the top of the stack.
-4. ```pop```
-Removes top element of stack.
-5. ```swap```
-Swaps top two elements of the stack.
-6. ```add```
-Add top two elements of the stack, remove them, and push result onto stack.
-7. ```sub```
-Subtract top two elements of the stack, remove them, and push result onto stack.
-8. ```div```
-Integer divide top two elements of the stack, remove them, and push result onto stack.
-9. ```mul```
-Multiply top two elements of the stack, remove them, and push result onto stack.
-10. ```mod```
-Integer division remainder top two elements, remove them, push result onto stack.
-11. ```pchar```
-Print the ascii character based on top integer in stack.
-12. ```pstr```
-Print the ascii characters related to integers in stack until 0 or >255.
-13. ```rotl```
-Rotate stack. Top element becomes last. Second from top becomes top.
-14. ```rotr```
-Rotate stack. Last element becomes top, Top element becomes second from top.
-15. ```stack```
-Changes mode to first in first out (the default behavior). Front of queue becomes top of stack.
-16. ```queue```
-Changes mode to last in first out. Top of stack becomes front of queue.
+2. Compile the program
+`gcc -Wall -Werror -Wextra -pedantic *.c -o monty`
 
-## Getting started
-Clone the repository and run "gcc -o monty *.c". Then run "./monty \<scriptname\>"
+3. Run the program as follows:
+- Usage: `monty <file.m>`
+- Ex: `./monty ./bytecodes/00.m`
 
-## Usage Examples
-The simplest usage is to push a few values onto the stack then print them all. Lets say we have a file like so:
+There are multiple `.m` files to choose from in the bytcodes files that run different Opcode functionality. Below is a table of all the Opcode options. Each file in the bytcodes folder contains different Opcodes that run their specific functionality.
+
+| Opcode Name   | Opcode Description |
+| :-----------: | :------------------- |
+| push          | *pushes an element on to the stack* |
+| pall          | *prints all the values on the stack, starting from the top* |
+| pint          | *prints the value at the top of the stack* |
+| pop           | *removes the top element of the stack* |
+| swap          | *swaps the top two elements of the stack* |
+| add           | *adds the top two elements of the stack* |
+| nop           | *doesn't do anything* |
+| sub           | *subtracts the top element of the stack from the second top element of the stack* |
+| div           | *divides the second top element of the stack by the top element of the stack* |
+| mul           | *multiplies the second top element of the stack with the top element of the stack* |
+| mod           | *computes the modulus of the second top element of the stack by the top element of the stack* |
+| comments (#)  | *add a # to the beginning of the line to comment in the file* |
+| pchar         | *prints the ASCII equivalent of the number at the top of the stack* |
+| pstr          | *prints the ASCII equivalent of the numbers stored in each element in the stack, starting from the top* |
+| rotl          | *rotates the top element of the stack to the bottom of the stack* |
+| rotr          | *rotates the bottom element of the stack to the top of the stack* |
+
+---
+
+## Example
 ```
-push 1
-push 2
-push 3
-pall
-```
-When we run this with "./monty scriptfile" we get the output:
-```
+Pandora666$ cat -e bytecodes/000.m
+push 0$
+push 1$
+push 2$
+  push 3$
+                   pall    $
+push 4$
+    push 5    $
+      push    6        $
+pall$
+Pandora666$ ./monty ./bytecodes/000.m
 3
 2
 1
-```
-To use some of the math functions, we can write a script like so:
-```
-push 1
-push 2
-push 3
-pall
-add
-add
-pall
-```
-This nets us an output:
-```
-3
-2
-1
+0
 6
+5
+4
+3
+2
+1
+0
+Pandora666$
+---
 ```
-If we want to print numbers as a string, we can have a script like:
-```
-push 49
-push 50
-push 51
-pstr
-```
-This gets the output "321"
+## Other files
 
-## Authors
+- monty.h - *Header file; Contains function, struct and global variable declarations*
+- bytecodes - *A directory containing test files used while making this program*
+---
+   
+### Technologies Used
+* Language: C
+* Operating System: Ubuntu 14.04 LTS (Trusty64)
+* Style: [Betty](https://github.com/holbertonschool/Betty)
+* Compiler: GCC
+---
 
-Sidney Burkett
+### Author
+Mitali Sengupta
+
+<img src="http://pluspng.com/img-png/twitter-png-file-png-image-200.png" width=2% height=2%/> [@aadhibangalan](https://twitter.com/aadhibangalan) 
+
+<img src="https://assets-cdn.github.com/images/icons/emoji/octocat.png" width=2% height=2%/>[MitaliSengupta](https://github.com/MitaliSengupta)
